@@ -21,7 +21,7 @@ DEFAULT_VALUES_STR = '  (1) Puzzle file path\n  (2) Solution file path'
 #    head/tail and the goal coordinate
 #  Heuristic.NUM_OBSTACLES:  Number of obstacles between the wriggler's head/tail 
 #    (whichever is closer to the goal) and the goal coordinate
-HEURISTIC = Heuristic.MANHATTAN_DIST
+HEURISTIC = Heuristic.NUM_OBSTACLES
 
 
 if __name__ == '__main__':
@@ -58,9 +58,13 @@ if __name__ == '__main__':
     
     # Check the result
     if result.solution:
-        # A solution has been found, generate solution file
+        # A solution has been found
         print('\nSolution found.')
+        print('N =', result.num_expanded_nodes)
+        print('d =', result.max_depth)
+
+        # Generate solution file
         puzzle.write_solution_file(soln_path, puzzle_path, result.solution.actions, result.solution.final_state, elapsed_time)
-    
+        
     else:
         print('\nCould not find a solution.\n')

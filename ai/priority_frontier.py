@@ -66,7 +66,6 @@ class PriorityFrontier():
             heuristic, count, node = heappop(self.queue)
 
             if node is not self.removed_nodes:
-                del self.node_dict[node]
                 return node
         
         return None

@@ -1,3 +1,4 @@
+from ai.a_star_result import AStarResult
 from ai.dls_result import DLSResult
 from ai.frontier import Frontier
 from ai.generic_result import GenericResult
@@ -217,10 +218,12 @@ class AIDriver:
         """Performs a A* Graph Search (A*GS) on the puzzle's search space starting at 
         the initial state.
         
-        Returns a GenericResult instance containing a solution with final state and a 
+        Returns an AStarResult instance containing a solution with final state and a 
         list of actions signifying the path from initial state to goal state if a solution 
-        can be found. If a solution cannot be found, a GenericResult class instance indicating 
-        a search failure is returned.
+        can be found. This includes the number of expanded nodes 
+        and the max depth reached by the algorithm, which are used in 
+        calculating the effective branching factor. If a solution cannot be found, 
+        an AStarResult class instance indicating a search failure is returned.
         """
         print('Performing A*GS\n')
 
@@ -232,11 +235,13 @@ class AIDriver:
 
         visited_nodes = set()
         
+        num_expanded_nodes = 0
+        
         while True:
             if frontier.is_empty():
                 # Search failure
                 print('Empty frontier.')
-                return GenericResult(failure=True)
+                return AStarResult(failure=True)
             
             # Get the next leaf node from the frontier
             leaf_node = frontier.pop()
@@ -244,14 +249,16 @@ class AIDriver:
             if not leaf_node:
                 # Search failure
                 print('Popped all the frontier nodes.')
-                return GenericResult(failure=True)
+                return AStarResult(failure=True)
             
             # Check for the goal state
             if self.check_goal_state(leaf_node.state):
                 # Search success
                 # Return final state and list of actions along path to the goal
-                #  as part of the GenericResult class solution member
-                return GenericResult(solution=Solution(final_state=leaf_node.state, actions=self.get_action_path(leaf_node)))
+                #  as part of the AStarResult class solution member
+                action_path = self.get_action_path(leaf_node)
+                return AStarResult(solution=Solution(final_state=leaf_node.state, actions=action_path), 
+                    num_expanded_nodes=num_expanded_nodes, max_depth=len(action_path) - 1)
 
             # Add this node to the visited nodes set
             visited_nodes.add(leaf_node)
@@ -266,6 +273,8 @@ class AIDriver:
                 
                 # Create a new search node with the created state
                 new_node = SearchNode(new_state, leaf_node, action, path_cost=leaf_node.path_cost + 1)
+                
+                num_expanded_nodes += 1
 
                 # If this node has already been visited, ignore it
                 if new_node in visited_nodes:
