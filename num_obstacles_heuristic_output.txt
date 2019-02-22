@@ -1,0 +1,36 @@
+Solving puzzle1.txt...
+puzzle1.txt
+Performing A*GS
+
+
+Solution found.
+b* = 1.19916
+Solution written to solution1.txt
+
+Solving puzzle2.txt...
+puzzle2.txt
+Performing A*GS
+
+
+Solution found.
+b* = 1.46472
+Solution written to solution2.txt
+
+Solving puzzle3.txt...
+puzzle3.txt
+Performing A*GS
+
+
+Solution found.
+b* = 1.12079
+Solution written to solution3.txt
+
+Solving puzzle4.txt...
+puzzle4.txt
+Performing A*GS
+
+
+Solution found.
+b* = 1.13662
+Solution written to solution4.txt
+
