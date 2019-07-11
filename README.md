@@ -1,3 +1,7 @@
+#### CS 5400 Artificial Intelligence | Using AI to solve TJ-Wriggle Puzzles
+
+#### Provided README:
+
 #################################
 #	Coding Standards	#
 #################################
